@@ -1,0 +1,7 @@
+core = 7.x
+description = Set appropriate configuration for dev/test/live sites
+name = "UCB Environment Configurations"
+package = "Other"
+project = ucb_envconf
+version = 7.x-0.1
+# project status url = "http://drupal_berkeley.localhost:8082/fserver"

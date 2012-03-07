@@ -1,0 +1,27 @@
+<?php
+/**
+ * Implementation of hook_init().
+ */
+function ucb_envconf_init() {
+	/**
+	 * UCB dev/live config
+	 */
+	if ((preg_match('/live\.[^.]+\.gotpantheon.com:{0,1}(?=\d{0,})/', $_SERVER['HTTP_HOST']) === 1) ||
+	(preg_match('/[\w\.\-_]*\.berkeley.edu:{0,1}(?=\d{0,})/', $_SERVER['HTTP_HOST']) === 1)) {
+		//Matched a live domain
+		variable_set('cas_server', 'auth.berkeley.edu');
+		$casattrib = variable_get('cas_attributes', array());
+		$casattrib['ldap']['server'] = 'ucb_prod';
+		variable_set('cas_attributes', $casattrib);
+	}
+	elseif ((preg_match('/dev\.[^.]+\.gotpantheon.com:{0,1}(?=\d{0,})/', $_SERVER['HTTP_HOST']) === 1) ||
+	(preg_match('/test\.[^.]+\.gotpantheon.com:{0,1}(?=\d{0,})/', $_SERVER['HTTP_HOST']) === 1) ||
+	(preg_match('/[\w\.\-_]*\.localhost:{0,1}(?=\d{0,})/', $_SERVER['HTTP_HOST']) === 1)) {
+		//Matched a dev domain
+		variable_set('cas_server', 'auth-test.berkeley.edu');
+		$casattrib = variable_get('cas_attributes', array());
+		$casattrib['ldap']['server'] = 'ucb_test';
+		variable_set('cas_attributes', $casattrib);
+	}
+
+}
