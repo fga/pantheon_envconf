@@ -8,7 +8,7 @@
  */
 function ucb_envconf_init() {
 	$env = '';
-	if (isset($_SERVER['pantheon_environment'])) $env = $_SERVER['pantheon_environment'];
+	if (isset($_SERVER['PANTHEON_ENVIRONMENT'])) $env = $_SERVER['PANTHEON_ENVIRONMENT'];
 
 	/*
 	 * Check the Pantheon environment variable first, if it has a value the operators will
