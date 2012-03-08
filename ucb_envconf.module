@@ -8,6 +8,7 @@
  */
 function ucb_envconf_init() {
 	$env = '';
+	$site_env = '';
 	if (isset($_SERVER['PANTHEON_ENVIRONMENT'])) $env = $_SERVER['PANTHEON_ENVIRONMENT'];
 
 	/*
@@ -67,12 +68,12 @@ function ucb_envconf_cas_attributes($env) {
 		case "dev":
 		case "test":
 			$casattrib = variable_get('cas_attributes', array());
-			$casattrib['ldap']['server'] = 'ucb_test';
+			$casattrib['ldap']['server'] = 1;
 			variable_set('cas_attributes', $casattrib);
 			break;
 		case "live":
 			$casattrib = variable_get('cas_attributes', array());
-			$casattrib['ldap']['server'] = 'ucb_prod';
+			$casattrib['ldap']['server'] = 2;
 			variable_set('cas_attributes', $casattrib);
 			break;
 	}
