@@ -8,6 +8,7 @@
  */
 function ucb_envconf_init() {
 	$env = '';
+ 	$site_env = '';
 	if (isset($_SERVER['PANTHEON_ENVIRONMENT'])) $env = $_SERVER['PANTHEON_ENVIRONMENT'];
 
 	/*
