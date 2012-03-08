@@ -34,3 +34,12 @@ We chose #2 because
   $conf['cas_attributes']['relationships'] configurable by the site
   admin.
 
+Notes
+-----
+
+Because this module applies configuration on hook_init() and because
+hook_init doesn't run when you issue 'drush vget', you might see a
+situation where 'drush vget' reports the wrong value.  If you visit
+the corresponding admin page, you should see the right value.
+
+Also note that hook_init() doesn't run on cached pages. 
