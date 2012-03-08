@@ -1,0 +1,81 @@
+<?php
+/**
+ * UCB dev/test/live config
+ */
+
+/**
+ * Implementation of hook_init().
+ */
+function ucb_envconf_init() {
+	$env = '';
+	if (isset($_SERVER['PANTHEON_ENVIRONMENT'])) $env = $_SERVER['PANTHEON_ENVIRONMENT'];
+
+	/*
+	 * Check the Pantheon environment variable first, if it has a value the operators will
+	 * short circuit and the preg_match()s will never be evaluated. This is good since pregs
+	 * are slow.
+	 *
+	 * The pregs are left in here so we can adapt this to non-Pantheon servers in the future.
+	 * Also so it will work with 'localhost' or 'local' urls.
+	 */
+
+	if (($env == 'live') ||
+	(preg_match('/live\.[^.]+\.gotpantheon.com:{0,1}(?=\d{0,})/', $_SERVER['HTTP_HOST']) === 1) ||
+	(preg_match('/[\w\.\-_]*\.berkeley.edu:{0,1}(?=\d{0,})/', $_SERVER['HTTP_HOST']) === 1)) {
+		//Matched a live domain
+		$site_env = 'live';
+	}
+	elseif (($env == 'test') ||
+	(preg_match('/test\.[^.]+\.gotpantheon.com:{0,1}(?=\d{0,})/', $_SERVER['HTTP_HOST']) === 1)) {
+		$site_env = 'test';
+	}
+	elseif (($env == 'dev') ||
+	(preg_match('/dev\.[^.]+\.gotpantheon.com:{0,1}(?=\d{0,})/', $_SERVER['HTTP_HOST']) === 1) ||
+	(preg_match('/[\w\.\-_]*\.localhost:{0,1}(?=\d{0,})/', $_SERVER['HTTP_HOST']) === 1) ||
+	(preg_match('/[\w\.\-_]*\.local:{0,1}(?=\d{0,})/', $_SERVER['HTTP_HOST']) === 1)) {
+		//Matched a dev domain
+		$site_env = 'dev';
+	}
+
+	ucb_envconf_cas($site_env);
+	ucb_envconf_cas_attributes($site_env);
+}
+
+
+/**
+ * cas settings
+ */
+function ucb_envconf_cas($env) {
+	if (!module_exists('cas')) return;
+	switch($env) {
+		case "dev":
+		case "test":
+			variable_set('cas_server', 'auth-test.berkeley.edu');
+			break;
+		case "live":
+			variable_set('cas_server', 'auth.berkeley.edu');
+			break;
+	}
+}
+
+/**
+ * cas_attributes settings
+ */
+function ucb_envconf_cas_attributes($env) {
+	if (!module_exists('cas_attributes')) return;
+	switch($env) {
+		case "dev":
+		case "test":
+			$casattrib = variable_get('cas_attributes', array());
+			$casattrib['ldap']['server'] = 'ucb_test';
+			variable_set('cas_attributes', $casattrib);
+			break;
+		case "live":
+			$casattrib = variable_get('cas_attributes', array());
+			$casattrib['ldap']['server'] = 'ucb_prod';
+			variable_set('cas_attributes', $casattrib);
+			break;
+	}
+
+}
+

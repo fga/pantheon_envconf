@@ -34,7 +34,3 @@ We chose #2 because
   $conf['cas_attributes']['relationships'] configurable by the site
   admin.
 
-BRANCHES
---------
-
-See the github branches for the actual code.

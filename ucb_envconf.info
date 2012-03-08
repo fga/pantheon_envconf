@@ -1,0 +1,6 @@
+core = 6.x
+description = Set appropriate configuration for dev/test/live sites
+name = "UCB Environment Configurations"
+package = "Other"
+project = ucb_envconf
+version = 6.x-1.0-alpha1
