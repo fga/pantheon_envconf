@@ -9,7 +9,7 @@
 function ucb_envconf_boot() {
 	$env = '';
 	$site_env = '';
-
+	//if (isset($GLOBALS['_SERVER']['PANTHEON_ENVIRONMENT'])) $env = $GLOBALS['_SERVER']['PANTHEON_ENVIRONMENT'];
 	if (isset($_SERVER['PANTHEON_ENVIRONMENT'])) $env = $_SERVER['PANTHEON_ENVIRONMENT'];
 
 	/*
@@ -35,14 +35,16 @@ function ucb_envconf_boot() {
 	}
 
 	/*
-	 * Would be nice only to inject config when the corresponding module is present.
-	 * Forgo this in order to minimize processing in hook_boot.
+	 * it would be nice to only inject configuration when the corresponding module is present
+	 * but to minimize processing in hook_boot() we will simply inject the configuration blindly
+	 * as we would if we were overriding these values in settings.php
+
 	 $list = module_list(TRUE);
 	 // Perform module-specific variable alterations
 	 if (isset($list['cas'])) ucb_envconf_cas($site_env);
 	 if (isset($list['cas_attributes'])) ucb_envconf_cas_attributes($site_env);
-	 */
 
+	 */
 	ucb_envconf_cas($site_env);
 	ucb_envconf_cas_attributes($site_env);
 }
@@ -52,13 +54,14 @@ function ucb_envconf_boot() {
  * cas settings
  */
 function ucb_envconf_cas($env) {
+	global $conf;
 	switch($env) {
 		case "dev":
 		case "test":
-			$GLOBALS['conf']['cas_server'] = 'auth-test.berkeley.edu';
+			$conf['cas_server'] = 'auth-test.berkeley.edu';
 			break;
 		case "live":
-			$GLOBALS['conf']['cas_server'] = 'auth.berkeley.edu';
+			$conf['cas_server'] = 'auth.berkeley.edu';
 			break;
 	}
 }
@@ -67,13 +70,14 @@ function ucb_envconf_cas($env) {
  * cas_attributes settings
  */
 function ucb_envconf_cas_attributes($env) {
+	global $conf;
 	switch($env) {
 		case "dev":
 		case "test":
-			$GLOBALS['conf']['cas_attributes']['ldap']['server'] = 'ucb_test';
+			$conf['cas_attributes']['ldap']['server'] = 'ucb_test';
 			break;
 		case "live":
-			$GLOBALS['conf']['cas_attributes']['ldap']['server'] = 'ucb_prod';
+			$conf['cas_attributes']['ldap']['server'] = 'ucb_prod';
 			break;
 	}
 
@@ -95,7 +99,6 @@ function ucb_envconf_form_alter(&$form, &$form_state, $form_id) {
 
 			break;
 		case "ldap_servers_admin_form":
-			$form['#after_build'][] = 'ucb_envconf_ldap_servers_after_build';
 			$form['server']['sid']['#disabled'] = TRUE;
 			$form['server']['sid']['#description'] = t('<em><strong>Setting locked by ucb_envconf.module</strong></em><br />') . $form['server']['sid']['#description'];
 			break;
@@ -103,7 +106,7 @@ function ucb_envconf_form_alter(&$form, &$form_state, $form_id) {
 }
 
 function ucb_envconf_cas_attributes_after_build($form, &$form_state) {
-	$form['cas_attributes']['ldap']['server']['#disabled'] = TRUE;
+	$form['cas_attributes']['ldap']['server']['#disabled'] = TRUE; //FIXME
 	$form['cas_attributes']['ldap']['server']['#description'] = t('<em><strong>Setting locked by ucb_envconf.module</strong></em><br />') . $form['cas_attributes']['ldap']['server']['#description'];
 	return $form;
 }
