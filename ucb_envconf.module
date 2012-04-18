@@ -9,7 +9,7 @@
 function ucb_envconf_boot() {
 	$env = '';
 	$site_env = '';
-	//if (isset($GLOBALS['_SERVER']['PANTHEON_ENVIRONMENT'])) $env = $GLOBALS['_SERVER']['PANTHEON_ENVIRONMENT'];
+
 	if (isset($_SERVER['PANTHEON_ENVIRONMENT'])) $env = $_SERVER['PANTHEON_ENVIRONMENT'];
 
 	/*
@@ -34,10 +34,17 @@ function ucb_envconf_boot() {
 		$site_env = 'dev';
 	}
 
-	$list = module_list(TRUE);
-	// Perform module-specific variable alterations
-	if (isset($list['cas'])) ucb_envconf_cas($site_env, $list);
-	if (isset($list['cas_attributes'])) ucb_envconf_cas_attributes($site_env, $list);
+	/*
+	 * Would be nice only to inject config when the corresponding module is present.
+	 * Forgo this in order to minimize processing in hook_boot.
+	 $list = module_list(TRUE);
+	 // Perform module-specific variable alterations
+	 if (isset($list['cas'])) ucb_envconf_cas($site_env);
+	 if (isset($list['cas_attributes'])) ucb_envconf_cas_attributes($site_env);
+	 */
+
+	ucb_envconf_cas($site_env);
+	ucb_envconf_cas_attributes($site_env);
 }
 
 
@@ -96,7 +103,7 @@ function ucb_envconf_form_alter(&$form, &$form_state, $form_id) {
 }
 
 function ucb_envconf_cas_attributes_after_build($form, &$form_state) {
-  $form['cas_attributes']['ldap']['server']['#disabled'] = TRUE;
+	$form['cas_attributes']['ldap']['server']['#disabled'] = TRUE;
 	$form['cas_attributes']['ldap']['server']['#description'] = t('<em><strong>Setting locked by ucb_envconf.module</strong></em><br />') . $form['cas_attributes']['ldap']['server']['#description'];
 	return $form;
 }
