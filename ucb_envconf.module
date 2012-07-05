@@ -4,7 +4,46 @@
  */
 
 /**
- * Implementation of hook_boot().
+ * Implements hook_help().
+ * @param path - the site path on which we're displaying help
+ * @param arg - an array that holds the current path
+ */
+function ucb_envconf_help($path, $arg) {
+	$output = '';
+	switch($path) {
+		case "admin/help#ucb_envconf":
+			$output .= '<p>' . t("The UCB Environment Configurations (ucb_envconf) module
+				helps to automate the configuration of UC Berkeley Drupal distribution settings
+				related to the current deployment environment of your site (development, testing,
+				production, etc.). Please note that this module is only intended to facilitate
+				development cycles and does not guarantee your site is configured correctly.").'</p>';
+			$output .= '<p>' . t("For more information,
+				see the <a href='http://drupal-apps.berkeley.edu/node/4'>UCB Environment
+				Configurations online documentation</a>.") . '</p>';
+			$output .= '<h3>' . t('Supported Environments') . '</h3>';
+			$output .= '<p>' . t("The UCB Environment Configurations module currently supports
+				your local development environment (if your local site's domain is <i>.local</i> or <i>
+				.localhost</i>) and the development/testing/live environments of
+				<a href='http://content.berkeley.edu/hosting/drupal/pantheon'>Pantheon's
+				hosting platform</a>.") . '</p>';
+			$output .= '<h3>' . t('Configuration Changes') . '</h3>';
+			$output .= '<p>' . t("UCB Environment Configurations makes the following changes:
+				<dl>
+					<dt><a href='/admin/user/cas/settings'>CAS Authentication Server Hostname</a></dt>
+					<dd>UC Berkeley's production CAS authentication server is only available to live
+					sites. A test CAS authentication server is configured for all other site
+					environments.</dd>
+					<dt><a href='/admin/user/cas/attributes'>LDAP Server</a></dt>
+					<dd>Live environments are configured to use UC Berkeley's production LDAP
+					server. All other environments use a test LDAP server.</dd>
+				</dl>") . '</p>';
+			break;
+	}
+	return $output;
+}
+
+/**
+ * Implements hook_boot().
  */
 function ucb_envconf_boot() {
 	$env = '';
@@ -95,19 +134,13 @@ function ucb_envconf_form_alter(&$form, &$form_state, $form_id) {
 			$form['server']['cas_server']['#description'] = t('<em><strong>Setting locked by ucb_envconf.module</strong></em><br />') . $form['server']['cas_server']['#description'];
 			break;
 		case "cas_attributes_admin_settings":
-			$form['#after_build'][] = 'ucb_envconf_cas_attributes_after_build';
-
+			$form['cas_attributes']['ldap']['server']['#description'] = t('<em><strong>Setting locked by ucb_envconf.module</strong></em><br />') . $form['cas_attributes']['ldap']['server']['#description'];
+			$form['cas_attributes']['ldap']['server']['#disabled'] = 'disabled';
 			break;
 		case "ldap_servers_admin_form":
 			$form['server']['sid']['#disabled'] = TRUE;
 			$form['server']['sid']['#description'] = t('<em><strong>Setting locked by ucb_envconf.module</strong></em><br />') . $form['server']['sid']['#description'];
 			break;
 	}
-}
-
-function ucb_envconf_cas_attributes_after_build($form, &$form_state) {
-	$form['cas_attributes']['ldap']['server']['#disabled'] = TRUE; //FIXME
-	$form['cas_attributes']['ldap']['server']['#description'] = t('<em><strong>Setting locked by ucb_envconf.module</strong></em><br />') . $form['cas_attributes']['ldap']['server']['#description'];
-	return $form;
 }
 
