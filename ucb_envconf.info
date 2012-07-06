@@ -1,7 +1,7 @@
 name = "UCB Environment Configurations"
-description = Sets appropriate configuration for dev/test/live sites
 dependencies[] = ucb_cas
+description = Sets UC Berkeley appropriate configuration for dev/test/live sites
 core = "6.x"
 package = "UC Berkeley"
-version = 6.x-1.0-alpha2
+version = 6.x-1.2-beta2
 project status url = "http://drupal-apps.berkeley.edu/fserver"
