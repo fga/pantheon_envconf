@@ -1,7 +1,6 @@
 name = "UCB Environment Configurations"
 description = Sets appropriate configuration for dev/test/live sites
-dependencies[] = cas
-dependencies[] = cas_attributes
+dependencies[] = ucb_cas
 core = "6.x"
 package = "UC Berkeley"
 version = 6.x-1.0-alpha2

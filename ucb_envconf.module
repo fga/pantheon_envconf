@@ -107,16 +107,22 @@ function ucb_envconf_cas($env) {
 
 /**
  * cas_attributes settings
+ * 
+ * To avoid hitting the database we need to know that 
+ * ldap-test.berkeley.edu has an sid of 1
+ * ldap.berkeley.edu has na sid of 2
+ * This is enforced by ucb_cas-6.x and that is why there is a ucb_envconf.info  
+ * dependency on ucb_cas. These sids are enforced in ucb_cas_install().
  */
 function ucb_envconf_cas_attributes($env) {
 	global $conf;
 	switch($env) {
 		case "dev":
 		case "test":
-			$conf['cas_attributes']['ldap']['server'] = 'ucb_test';
+			$conf['cas_attributes']['ldap']['server'] = 1;
 			break;
 		case "live":
-			$conf['cas_attributes']['ldap']['server'] = 'ucb_prod';
+			$conf['cas_attributes']['ldap']['server'] = 2;
 			break;
 	}
 
