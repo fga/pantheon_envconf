@@ -1,5 +1,5 @@
 name = "UCB Environment Configurations"
-description = Sets appropriate configuration for dev/test/live sites
+description = Sets UC Berkeley appropriate configuration for dev/test/live sites
 dependencies[] = cas
 dependencies[] = cas_attributes
 core = "6.x"
