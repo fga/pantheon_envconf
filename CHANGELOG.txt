@@ -1,3 +1,8 @@
+ucb_envconf 6.x-1.2-beta1
+=========================
+* Set LDAP server select control to disabled
+* Added additional help documentation
+
 ucb_envconf 6.x-1.1-beta1
 =========================
 * use hook_boot, so we make sure variables are set even on cached pages
