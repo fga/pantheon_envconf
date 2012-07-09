@@ -1,3 +1,8 @@
+ucb_envconf 6.x-1.2-beta2
+=========================
+* Removed dependencies for CAS and CAS Attributes modules
+* Added dependency for ucb_cas module to ensure correct LDAP server entries are created
+
 ucb_envconf 6.x-1.2-beta1
 =========================
 * Set LDAP server select control to disabled
