@@ -1,3 +1,7 @@
+ucb_envconf 6.x-1.2-beta3
+=========================
+* Updated project name in .info file to support update status from Berkeley feature server
+
 ucb_envconf 6.x-1.2-beta2
 =========================
 * Removed dependencies for CAS and CAS Attributes modules
