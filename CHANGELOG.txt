@@ -1,3 +1,7 @@
+ucb_envconf 6.x-1.2-beta4
+=========================
+* Added corrected datestamp field to the .info file to support update status release date information
+ 
 ucb_envconf 6.x-1.2-beta3
 =========================
 * Updated project name in .info file to support update status from Berkeley feature server
