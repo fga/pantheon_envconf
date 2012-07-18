@@ -1,3 +1,10 @@
+ucb_envconf 7.x-1.1-beta2
+=========================
+* Fix problems in the .info file
+    * add project name
+    * fix dependancies
+* add the manifest for apps
+
 ucb_envconf 7.x-1.1-beta1
 =========================
 * use hook_boot, so we make sure variables are set even on cached pages
