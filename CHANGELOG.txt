@@ -1,3 +1,8 @@
+ucb_envconf 6.x-1.2-beta5
+=========================
+* Updated project name in the .info file to match new project machine name in fserver. 
+* Removed the unneeded data stamp in the .info file.
+
 ucb_envconf 6.x-1.2-beta4
 =========================
 * Added corrected datestamp field to the .info file to support update status release date information
