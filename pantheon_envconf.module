@@ -17,24 +17,19 @@ function pantheon_envconf_boot() {
 	 * short circuit and the preg_match()s will never be evaluated. This is good since pregs
 	 * are slow.
 	 *
-	 * The pregs are left in here so we can adapt this to non-Pantheon servers in the future.
-	 * Also so it will work with 'localhost' or 'local' urls.
 	 */
-
 	if ($env == 'live') {
 		$site_env = 'live';
 	}
 	elseif ($env == 'test') {
 		$site_env = 'test';
 	}
-	elseif (($env == 'dev') {
+	elseif ($env == 'dev') {
 		$site_env = 'dev';
 	}
-	
 	// we suppose that if it's not on Pantheon, it's local, but also explicity catch .local domains
 	elseif (($env == '') ||
 	(preg_match('/[\w\.\-_]*\.local:{0,1}(?=\d{0,})/', $_SERVER['HTTP_HOST']) === 1)) {
-
 	  $env = $site_env = 'local';
 	}
 	/*
@@ -44,11 +39,12 @@ function pantheon_envconf_boot() {
 
 	 $list = module_list(TRUE);
 	 // Perform module-specific variable alterations
-	 if (isset($list['cas'])) pantheon_envconf_cas($site_env);
+	 if (isset($list['google_analytics'])) pantheon_envconf_cas($site_env);
 	 if (isset($list['cas_attributes'])) pantheon_envconf_cas_attributes($site_env);
 
 	 */
 	pantheon_envconf($site_env);
+	//pantheon_envconf_preprocess_html($site_env);
 }
 
 
@@ -57,23 +53,31 @@ function pantheon_envconf_boot() {
  */
 function pantheon_envconf($env) {
 	global $conf;
+	$site_name = $conf['site_name'];
+	
 	switch($env) {
 	  
-	  $site_name = $conf['site_name'];
-	  
+	  // set variables per environment
 		case "local":
-			$conf['site_name'] = $site_name . '- LOCAL';
+			$conf['site_name'] = $site_name . ' - LOCAL';
 			break;
 		case "dev":
-  		$conf['site_name'] = $site_name . '- DEV';
+  		$conf['site_name'] = $site_name . ' - DEV';
   		break;
 		case "test":
-		  $conf['site_name'] = $site_name . '- TEST';
+		  $conf['site_name'] = $site_name . ' - TEST';
 			break;
 		case "live":
 			break;
 
 	}
+}
+
+function pantheon_envconf_preprocess_html(&$vars) {
+  
+  //$vars['classes_array'][] = 'local';
+  //$vars['attributes_array']['class'][] = 'local';
+  		
 }
 
 

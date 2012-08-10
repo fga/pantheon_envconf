@@ -1,6 +1,9 @@
 pantheon_envconf-7.x-1.x
 ===================
 
+forked from https://github.com/ucbdrupal/ucb_envconf
+
+
 PURPOSE
 -------
 
