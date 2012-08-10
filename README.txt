@@ -1,10 +1,10 @@
-ucb_envconf-7.x-1.x
+pantheon_envconf-7.x-1.x
 ===================
 
 PURPOSE
 -------
 
-UCB Environment Configurations (ucb_envconf) is a small module that
+Pantehon Environment Configurations (pantheon_envconf) is a small module that
 defines configuration depending on the environment (dev/test/live) of
 the site. When developing a Drupal site in a dev/test/live environment
 the developer will often load her dev site with the live database.
@@ -13,7 +13,7 @@ code.")  Unless the developer manually updates certain settings, the
 dev site will receive some settings that should be specific to
 production.
 
-ucb_envconf automatically forces certain settings to their correct
+pantheon_envconf automatically forces certain settings to their correct
 values based on the site's environment. It does this via hook_boot().
 The module takes pains to do as little as possible in hook_boot so as
 not to negatively affect site performance.

@@ -2,6 +2,14 @@
 /**
  * Implements hook_install().
  */
-function ucb_envconf_install() {
-  db_query("UPDATE {system} SET weight = -100 WHERE name = 'ucb_envconf'");
+function pantheon_envconf_install() {
+  db_query("UPDATE {system} SET weight = -100 WHERE name = 'pantheon_envconf'");
+}
+
+function pantheon_envconf_uninstall() {
+ 
+  variable_del('pantheon_envconf');
+
+  drupal_set_message(t('The Pantheon Environment Configurations module has been uninstalled.'));
+  
 }
